@@ -1,0 +1,55 @@
+
+def oku():
+    try:
+        with open("todo.txt", "r") as f:
+            return f.read().splitlines()
+    except FileNotFoundError:
+        return []
+
+def yaz(liste):
+    with open("todo.txt", "w") as f:
+        for gorev in liste:
+            f.write(gorev + "\n")
+
+def listele():
+    gorevler = oku()
+    if not gorevler:
+        print("Henüz görev yok.")
+    else:
+        for i, g in enumerate(gorevler, start=1):
+            print(f"{i}. {g}")
+
+def ekle():
+    g = input("Yeni görev: ")
+    liste = oku()
+    liste.append(g)
+    yaz(liste)
+    print("Görev eklendi.")
+
+def sil():
+    listele()
+    try:
+        s = int(input("Silmek istediğin görev numarası: "))
+        liste = oku()
+        silinen = liste.pop(s - 1)
+        yaz(liste)
+        print(f"'{silinen}' silindi.")
+    except:
+        print("Geçersiz seçim.")
+
+def menu():
+    while True:
+        print("\n1. Listele\n2. Ekle\n3. Sil\n4. Çık")
+        sec = input("Seçim: ")
+        if sec == "1":
+            listele()
+        elif sec == "2":
+            ekle()
+        elif sec == "3":
+            sil()
+        elif sec == "4":
+            break
+        else:
+            print("Geçersiz giriş.")
+
+menu()
